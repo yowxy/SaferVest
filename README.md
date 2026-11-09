@@ -1,5 +1,12 @@
 # SAFER-Vest: Klasifikasi Peringatan Keselamatan Berbasis Sensor
 
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
+[![XGBoost](https://img.shields.io/badge/XGBoost-EB252B?style=for-the-badge&logo=xgboost&logoColor=white)](https://xgboost.ai/)
+[![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)](https://pandas.pydata.org/)
+[![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)](https://numpy.org/)
+[![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-F37626?style=for-the-badge&logo=jupyter&logoColor=white)](https://jupyter.org/)
+
 Model klasifikasi prediktif untuk mendeteksi kondisi darurat relawan lapangan secara otomatis dari telemetri sensor rompi keselamatan pintar **SAFER-Vest** (detak jantung, gerak tubuh, dan koordinat GPS).
 
 ---
@@ -39,13 +46,34 @@ flowchart TD
 
 ## 2. Teknologi yang Digunakan
 
-| Komponen | Pustaka / Tools | Fungsi Utama |
+Proyek ini dibangun menggunakan *tech stack* data science dan machine learning standar industri:
+
+<p align="left">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white" alt="Pandas" />
+  <img src="https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white" alt="NumPy" />
+  <img src="https://img.shields.io/badge/Scikit_Learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white" alt="Scikit-Learn" />
+  <img src="https://img.shields.io/badge/XGBoost-EB252B?style=for-the-badge&logo=xgboost&logoColor=white" alt="XGBoost" />
+  <img src="https://img.shields.io/badge/Jupyter_Notebook-F37626?style=for-the-badge&logo=jupyter&logoColor=white" alt="Jupyter" />
+  <img src="https://img.shields.io/badge/Matplotlib-11557c?style=for-the-badge&logo=python&logoColor=white" alt="Matplotlib" />
+  <img src="https://img.shields.io/badge/Seaborn-4c72b0?style=for-the-badge&logo=python&logoColor=white" alt="Seaborn" />
+</p>
+
+| Komponen | Pustaka / Tools | Peran dalam Sistem SAFER-Vest |
 | :--- | :--- | :--- |
-| **Bahasa Utama** | Python 3.10+ | Bahasa pemrograman untuk komputasi analitik dan pemodelan |
-| **Manipulasi Data** | Pandas, NumPy, OpenPyXL | Pembersihan data telemetri, ekstraksi fitur biosignal & spasial |
-| **Machine Learning** | Scikit-Learn, XGBoost | Pelatihan 6 algoritma klasifikasi, penskalaan fitur, & evaluasi metrik |
-| **Visualisasi** | Matplotlib, Seaborn | Eksplorasi data sensor, plot matriks konfusi, & tingkat kepentingan fitur |
-| **Lingkungan Kerja** | Jupyter Notebook | Dokumentasi analisis interaktif pada [index.ipynb](index.ipynb) |
+| **Bahasa Utama** | ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) | Fondasi utama komputasi numerik, manipulasi data, dan orkestrasi pemodelan AI |
+| **Manipulasi & Rekayasa Data** | ![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white) ![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white) | Mengolah data telemetri sensor Excel, agregasi denyut nadi per relawan, dan perhitungan jarak koordinat GPS |
+| **Machine Learning Core** | ![Scikit-Learn](https://img.shields.io/badge/Scikit_Learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white) | Preprocessing data (penskalaan fitur & stratified split), pelatihan 5 model klasik, dan kalkulasi metrik evaluasi |
+| **Gradient Boosting Engine** | ![XGBoost](https://img.shields.io/badge/XGBoost-EB252B?style=flat-square&logo=xgboost&logoColor=white) | Algoritma utama berakurasi tinggi (99.44%) untuk menangani interaksi non-linear kompleks antarsensor |
+| **Visualisasi Data** | ![Matplotlib](https://img.shields.io/badge/Matplotlib-11557c?style=flat-square&logo=python&logoColor=white) ![Seaborn](https://img.shields.io/badge/Seaborn-4c72b0?style=flat-square&logo=python&logoColor=white) | Eksplorasi data sensor (EDA), visualisasi distribusi detak jantung, sebaran GPS, dan heatmap matriks konfusi |
+| **Lingkungan Interaktif** | ![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=flat-square&logo=jupyter&logoColor=white) | Media eksperimen terstruktur dan dokumentasi sel per sel pada [index.ipynb](index.ipynb) |
+
+### Peran Khusus Setiap Komponen:
+1. **Pandas & NumPy:** Membersihkan 3.547 rekaman sensor, membuat fitur *rolling window* denyut nadi (menangkap tren lonjakan bertahap), serta menghitung deviasi jarak relawan dari posko darurat menggunakan kalkulasi vektor spasial.
+2. **Scikit-Learn:** Melakukan standarisasi skala (*StandardScaler*) agar model berbasis jarak (KNN dan SVM) tidak bias terhadap perbedaan satuan angka, serta membagi data secara *stratified* (80:20) agar proporsi insiden bahaya seimbang.
+3. **XGBoost:** Menjadi model utama yang menggabungkan pohon keputusan secara bertahap (*boosting*), membedakan kondisi bahaya nyata dari fluktuasi normal dengan akurasi 99.44% dan hanya 1 alarm palsu.
+4. **Matplotlib & Seaborn:** Merender grafik distribusi detak jantung, pemetaan titik operasi GPS, dan visualisasi matriks konfusi untuk audit performa model.
+5. **Jupyter Notebook:** Menyajikan alur analisis sel per sel yang modular, rapi (*clean code*), dan dapat langsung diaudit tanpa perlu menjalankan ulang dari nol.
 
 ---
 
